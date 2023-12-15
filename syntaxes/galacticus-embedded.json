@@ -1,0 +1,27 @@
+{
+  "fileTypes": [
+    "F90"
+  ],
+  "injectionSelector": "L:source.fortran.free",
+  "patterns": [
+    {
+      "begin": "^\\s*!!\\[",
+      "end": "^\\s*!!\\]",
+      "patterns": [
+        {
+          "include": "text.xml"
+        }
+      ]
+    },
+    {
+      "begin": "^\\s*!!\\{",
+      "end": "^\\s*!!\\}",
+      "patterns": [
+        {
+          "include": "text.tex.latex"
+        }
+      ]
+    }
+  ],
+  "scopeName": "inline.galacticus"
+}
