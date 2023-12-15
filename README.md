@@ -4,7 +4,9 @@ Adds syntax highlight support for embedded XML and LaTeX in Galacticus code.
 
 ## Installation
 
-From the "Extensions" tab, click "..." and select "Install from VSIX...". Select the file you downloaded and click "Install".
+Install it from the Marketplace in VSCode!
+
+Depends on the [Modern Fortran](https://marketplace.visualstudio.com/items?itemName=fortran-lang.linter-gfortran) extension (which will be installed automatically).
 
 ## Requirements
 
