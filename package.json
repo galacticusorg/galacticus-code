@@ -2,7 +2,7 @@
   "name": "galacticus-code",
   "displayName": "Embedded XML/LaTeX in Galacticus",
   "description": "Highlight Embedded XML and LaTeX in Galacticus source",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "GalacticusOrg",
   "icon": "docs/logo.png",
   "engines": {
