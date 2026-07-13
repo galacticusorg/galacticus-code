@@ -31,7 +31,7 @@
       },
       "contentName": "meta.embedded.block.restructuredtext",
       "patterns": [
-        { "include": "text.restructuredtext" }
+        { "include": "source.rst" }
       ]
     }
   ],
