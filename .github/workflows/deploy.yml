@@ -1,18 +1,24 @@
 name: 'deploy'
 on:
+  # Manual trigger, plus automatic publish when a version tag is pushed.
+  # Publishing the version already in package.json on every push to master
+  # fails once that version exists on the Marketplace, so releases are driven
+  # by tags instead: bump the version in package.json, then push a matching
+  # `vX.Y.Z` tag to publish.
   workflow_dispatch:
   push:
-    branches:
-      - 'master'
+    tags:
+      - 'v*'
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
-      - run: npm ci
+          node-version: 20
+      # No `npm ci` / build step: the extension has no dependencies and no
+      # prepublish build, and HaaLeo/publish-vscode-extension bundles vsce.
       - name: Publish to Visual Studio Marketplace
         uses: HaaLeo/publish-vscode-extension@v1
         with:
