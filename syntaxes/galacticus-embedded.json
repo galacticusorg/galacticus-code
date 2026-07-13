@@ -5,21 +5,33 @@
   "injectionSelector": "L:source.fortran.free",
   "patterns": [
     {
+      "comment": "Embedded XML directive blocks:  !![ ... !!]",
       "begin": "^\\s*!!\\[",
       "end": "^\\s*!!\\]",
+      "beginCaptures": {
+        "0": { "name": "comment.line.exclamation.galacticus" }
+      },
+      "endCaptures": {
+        "0": { "name": "comment.line.exclamation.galacticus" }
+      },
+      "contentName": "meta.embedded.block.xml",
       "patterns": [
-        {
-          "include": "text.xml"
-        }
+        { "include": "text.xml" }
       ]
     },
     {
-      "begin": "^\\s*!!\\{",
+      "comment": "Embedded reStructuredText docstrings:  !!{RST ... !!}  (formerly LaTeX)",
+      "begin": "^\\s*!!\\{(?:RST\\b)?",
       "end": "^\\s*!!\\}",
+      "beginCaptures": {
+        "0": { "name": "comment.line.exclamation.galacticus" }
+      },
+      "endCaptures": {
+        "0": { "name": "comment.line.exclamation.galacticus" }
+      },
+      "contentName": "meta.embedded.block.restructuredtext",
       "patterns": [
-        {
-          "include": "text.tex.latex"
-        }
+        { "include": "source.rst" }
       ]
     }
   ],

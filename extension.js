@@ -1,0 +1,124 @@
+'use strict';
+
+const vscode = require('vscode');
+
+// Find the documentable Galacticus classes defined in a source file.
+//
+// Two forms are recognised:
+//
+//   * The abstract base class ("family"), declared in a `_class.F90` file:
+//
+//       !![
+//       <functionClass ...>
+//        <name>intergalacticMediumFilteringMass</name>
+//        ...
+//       </functionClass>
+//       !!]
+//
+//   * A concrete implementation, which registers itself against its family by
+//     using the family name as the element tag and a `name` attribute that
+//     begins with that tag:
+//
+//       !![
+//       <intergalacticMediumFilteringMass name="intergalacticMediumFilteringMassGnedin2000">
+//        ...
+//       </intergalacticMediumFilteringMass>
+//       !!]
+//
+// Both are documented on the family page `physics/<family>.html`; the family
+// section carries the anchor `physics-<family>` and each implementation section
+// the anchor `physics-<implementationName>` (see scripts/doc/extractDocsRST.py).
+function findTargets(text) {
+    const targets = [];
+    const seen = new Set();
+    const add = (family, name, kind) => {
+        const key = family + ' ' + name;
+        if (!seen.has(key)) {
+            seen.add(key);
+            targets.push({ family, name, kind });
+        }
+    };
+
+    // Abstract base class: <functionClass ...> ... <name>NAME</name>.
+    const classRe = /<functionClass\b[^>]*>[\s\S]*?<name>\s*([A-Za-z0-9_]+)\s*<\/name>/g;
+    let m;
+    while ((m = classRe.exec(text)) !== null) {
+        add(m[1], m[1], 'class');
+    }
+
+    // Implementation registration: <family name="familyImplementation">, where
+    // the name begins with the tag followed by an upper-case letter. This
+    // excludes <method name="...">, <eventHook name="...">, <inputParameter
+    // name="...">, etc.
+    const implRe = /<([a-z][A-Za-z0-9]*)\b[^>]*\bname="([A-Za-z0-9_]+)"/g;
+    while ((m = implRe.exec(text)) !== null) {
+        const tag = m[1];
+        const name = m[2];
+        if (name !== tag && name.startsWith(tag) && /[A-Z]/.test(name.charAt(tag.length))) {
+            add(tag, name, 'implementation');
+        }
+    }
+
+    return targets;
+}
+
+// Reproduce Sphinx's standard-label id: lower-case, runs of non-alphanumerics
+// collapsed to a single hyphen, leading/trailing hyphens trimmed.
+function anchorId(name) {
+    return ('physics-' + name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function urlFor(target) {
+    const configured = vscode.workspace
+        .getConfiguration('galacticus')
+        .get('docsBaseUrl', 'https://galacticus.readthedocs.io/en/latest/');
+    const base = configured.replace(/\/+$/, '') + '/';
+    return base + 'physics/' + encodeURIComponent(target.family) + '.html#' + anchorId(target.name);
+}
+
+async function openClassDocs() {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage('Galacticus: no active editor.');
+        return;
+    }
+
+    const targets = findTargets(editor.document.getText());
+    if (targets.length === 0) {
+        vscode.window.showInformationMessage(
+            'Galacticus: no functionClass or implementation definition found in this file.'
+        );
+        return;
+    }
+
+    let target = targets[0];
+    if (targets.length > 1) {
+        const pick = await vscode.window.showQuickPick(
+            targets.map(t => ({
+                label: t.name,
+                description: t.kind === 'class' ? 'functionClass' : 'implementation',
+                target: t
+            })),
+            { placeHolder: 'Open Galacticus documentation for which class?' }
+        );
+        if (!pick) {
+            return;
+        }
+        target = pick.target;
+    }
+
+    vscode.env.openExternal(vscode.Uri.parse(urlFor(target)));
+}
+
+function activate(context) {
+    context.subscriptions.push(
+        vscode.commands.registerCommand('galacticus.openClassDocs', openClassDocs)
+    );
+}
+
+function deactivate() {}
+
+module.exports = { activate, deactivate };
