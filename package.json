@@ -1,12 +1,12 @@
 {
   "name": "galacticus-code",
-  "displayName": "Embedded XML/LaTeX in Galacticus",
-  "description": "Highlight Embedded XML and LaTeX in Galacticus source",
-  "version": "0.1.1",
+  "displayName": "Galacticus",
+  "description": "Galacticus support for VSCode: highlights embedded XML directives and reStructuredText docstrings in source, and links functionClass definitions to the online documentation.",
+  "version": "0.2.0",
   "publisher": "GalacticusOrg",
   "icon": "docs/logo.png",
   "engines": {
-    "vscode": "^1.19.0"
+    "vscode": "^1.60.0"
   },
   "galleryBanner": {
     "color": "#dedede",
@@ -23,11 +23,17 @@
     "Programming Languages"
   ],
   "keywords": [
-    "fortran"
+    "fortran",
+    "galacticus"
   ],
   "extensionDependencies": [
-        "fortran-lang.linter-gfortran"
-    ],
+    "fortran-lang.linter-gfortran",
+    "trond-snekvik.simple-rst"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:FortranFreeForm"
+  ],
   "contributes": {
     "grammars": [
       {
@@ -37,10 +43,44 @@
         "scopeName": "inline.galacticus",
         "path": "./syntaxes/galacticus-embedded.json",
         "embeddedLanguages": {
-          "meta.embedded.xml": "xml",
-          "meta.embedded.latex": "latex"
+          "meta.embedded.block.xml": "xml",
+          "meta.embedded.block.restructuredtext": "restructuredtext"
         }
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "galacticus.openClassDocs",
+        "title": "Galacticus: Open Documentation for functionClass",
+        "category": "Galacticus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "galacticus.openClassDocs",
+          "when": "editorTextFocus && resourceExtname == .F90",
+          "group": "navigation@100"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "galacticus.openClassDocs",
+        "key": "ctrl+k ctrl+g",
+        "mac": "cmd+k cmd+g",
+        "when": "editorTextFocus && resourceExtname == .F90"
+      }
+    ],
+    "configuration": {
+      "title": "Galacticus",
+      "properties": {
+        "galacticus.docsBaseUrl": {
+          "type": "string",
+          "default": "https://galacticus.readthedocs.io/en/latest/",
+          "description": "Base URL of the online Galacticus documentation used by the 'Open Documentation for functionClass' command."
+        }
+      }
+    }
   }
 }
