@@ -1,0 +1,14 @@
+# Dependabot version updates. See:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+#
+# Only the GitHub Actions used by the deploy workflow are tracked. The extension
+# itself has no npm dependencies, so there is no npm ecosystem to update.
+
+version: 2
+updates:
+  - package-ecosystem: "github-actions" # Actions used in .github/workflows/
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "abensonca"
