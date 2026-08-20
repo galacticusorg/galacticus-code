@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+# [0.3.0]
+
+* **Open Documentation for functionClass** now works in Galacticus parameter
+  files as well as `.F90` sources, on the same `Ctrl+K Ctrl+G` binding
+  (`Cmd+K Cmd+G` on macOS) and the editor context menu. Put the cursor on a
+  parameter that selects an implementation — `<darkMatterProfileScaleRadius
+  value="johnson2021"/>` — and it opens that implementation's section of the
+  documentation. Anywhere inside the element works; if the cursor is on
+  something that is not a selection, the command walks out to the enclosing
+  class, so a sub-parameter takes you to the class that defines it.
+* Valid selections are recognised from the generated `parameters.xsd` when it can
+  be found (via `xml.fileAssociations`, `schema/parameters.xsd`, or
+  `.vscode/schema/parameters.xsd`), so parameters that have no documentation page
+  now say so instead of opening a dead link. Falls back to the naming convention
+  when no schema is available.
+* The extension now also activates on XML.
+
 # [0.2.0]
 
 * Embedded docstring blocks (`!!{RST ... !!}`) are now highlighted as
