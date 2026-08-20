@@ -2,7 +2,7 @@
   "name": "galacticus-code",
   "displayName": "Galacticus",
   "description": "Galacticus support for VSCode: highlights embedded XML directives and reStructuredText docstrings in source, and links functionClass definitions to the online documentation.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "GalacticusOrg",
   "icon": "docs/logo.png",
   "engines": {
@@ -31,8 +31,12 @@
     "trond-snekvik.simple-rst"
   ],
   "main": "./extension.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "activationEvents": [
-    "onLanguage:FortranFreeForm"
+    "onLanguage:FortranFreeForm",
+    "onLanguage:xml"
   ],
   "contributes": {
     "grammars": [
@@ -61,6 +65,11 @@
           "command": "galacticus.openClassDocs",
           "when": "editorTextFocus && resourceExtname == .F90",
           "group": "navigation@100"
+        },
+        {
+          "command": "galacticus.openClassDocs",
+          "when": "editorTextFocus && editorLangId == xml",
+          "group": "navigation@100"
         }
       ]
     },
@@ -70,6 +79,12 @@
         "key": "ctrl+k ctrl+g",
         "mac": "cmd+k cmd+g",
         "when": "editorTextFocus && resourceExtname == .F90"
+      },
+      {
+        "command": "galacticus.openClassDocs",
+        "key": "ctrl+k ctrl+g",
+        "mac": "cmd+k cmd+g",
+        "when": "editorTextFocus && editorLangId == xml"
       }
     ],
     "configuration": {

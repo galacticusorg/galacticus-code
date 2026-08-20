@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- A cut-down parameter file carrying one of each construct the command has to
+     cope with. Not a runnable model. -->
+<parameters>
+  <formatVersion>2</formatVersion>
+
+  <!-- A functionClass whose labels the schema enumerates, nested two deep so
+       that walking outwards has somewhere to walk to. -->
+  <darkMatterProfileScaleRadius value="concentrationLimiter">
+    <concentrationMinimum value="4.0"/>
+    <darkMatterProfileScaleRadius value="johnson2021">
+      <energyBoost value="0.6773"/>
+    </darkMatterProfileScaleRadius>
+  </darkMatterProfileScaleRadius>
+
+  <!-- A functionClass the schema declares without an enumeration. -->
+  <criticalOverdensity value="sphericalCollapseClsnlssMttrCsmlgclCnstnt"/>
+
+  <!-- A nodeComponent. Shaped exactly like a functionClass selection, but it has
+       no documentation page, so the command must decline it. -->
+  <componentSatellite value="orbiting"/>
+
+  <!-- A sub-parameter: not a selection itself, documented under the class that
+       defines it. -->
+  <mergerTreeMassResolution value="fixed">
+    <massResolution value="3.0e7"/>
+  </mergerTreeMassResolution>
+
+  <!-- Single-quoted attribute, and a comment inside a class block. -->
+  <nodeOperator value='multi'>
+    <!-- Halo angular momentum -->
+    <nodeOperator value="haloAngularMomentumVitvitska2002"/>
+  </nodeOperator>
+
+  <!-- A plain-valued parameter with no functionClass anywhere above it. -->
+  <toleranceAbsoluteMass value="1.0e-6"/>
+</parameters>

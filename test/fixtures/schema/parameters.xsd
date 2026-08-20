@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!-- A cut-down stand-in for the generated Galacticus parameter schema. It keeps
+     the two section comments the command keys on, a family with enumerated
+     labels, a family declared without an enumeration, and one enumerated
+     parameter in the *second* section that must not be mistaken for a
+     functionClass. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- functionClass selectors: value restricted to valid implementations. -->
+  <xs:element name="darkMatterProfileScaleRadius">
+   <xs:complexType mixed="true">
+       <xs:attribute name="value" use="optional">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="concentrationLimiter"/>
+          <xs:enumeration value="johnson2021"/>
+          <xs:enumeration value="ludlow2016Analytic"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+   </xs:complexType>
+  </xs:element>
+  <xs:element name="criticalOverdensity">
+   <xs:complexType mixed="true">
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+   </xs:complexType>
+  </xs:element>
+  <xs:element name="mergerTreeMassResolution">
+   <xs:complexType mixed="true">
+       <xs:attribute name="value" use="optional">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="fixed"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+   </xs:complexType>
+  </xs:element>
+  <xs:element name="nodeOperator">
+   <xs:complexType mixed="true">
+       <xs:attribute name="value" use="optional">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="haloAngularMomentumVitvitska2002"/>
+          <xs:enumeration value="multi"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+   </xs:complexType>
+  </xs:element>
+
+  <!-- Enumeration-valued parameters: value restricted to allowed labels. -->
+  <xs:element name="componentSatellite">
+   <xs:complexType mixed="true">
+       <xs:attribute name="value" use="optional">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="orbiting"/>
+          <xs:enumeration value="preset"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+   </xs:complexType>
+  </xs:element>
+
+</xs:schema>
