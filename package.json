@@ -31,6 +31,9 @@
     "trond-snekvik.simple-rst"
   ],
   "main": "./extension.js",
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
   "activationEvents": [
     "onLanguage:FortranFreeForm",
     "onLanguage:xml"

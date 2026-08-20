@@ -125,6 +125,11 @@ async function openSourceDocs(editor) {
 // maps onto a documentation anchor by capitalising its first character and
 // appending it to the family. Everything downstream (page, anchor) is then
 // exactly as for the Fortran command.
+//
+// The capitalisation is for fidelity to the registered name, not correctness:
+// `anchorId` case-folds, so `...ScaleRadiusJohnson2021` and
+// `...ScaleRadiusjohnson2021` produce the same anchor. Keep it anyway -- the
+// point is that this reconstructs a name the source really uses.
 function implementationName(family, label) {
     return family + label.charAt(0).toUpperCase() + label.slice(1);
 }

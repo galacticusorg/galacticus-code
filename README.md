@@ -52,4 +52,16 @@ Both are installed automatically as dependencies.
   (e.g. a local or versioned docs build) if needed. The command constructs
   `<base>/physics/<family>.html#physics-<name>`.
 
+## Development
+
+The test suite runs on node's built-in runner, with no dependencies to install:
+
+```bash
+npm test
+```
+
+It drives the extension through its registered command with a stubbed `vscode`
+module (`test/stubs/`) against fixtures in `test/fixtures/`, so it needs neither
+a running editor nor a Galacticus checkout.
+
 **Enjoy!**

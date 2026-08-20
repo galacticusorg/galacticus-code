@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
   now say so instead of opening a dead link. Falls back to the naming convention
   when no schema is available.
 * The extension now also activates on XML.
+* Added a test suite (`npm test`), run on pull requests. It exercises the
+  command through its registered handler with a stubbed `vscode` module and
+  self-contained fixtures, so it needs neither a running editor nor a Galacticus
+  checkout.
 
 # [0.2.0]
 
